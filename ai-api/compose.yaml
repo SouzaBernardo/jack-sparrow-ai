@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+
+  ollama:
+    build:
+      context: .
+      dockerfile: Dockerfile-ollama
+    ports:
+      - "11434:11434"
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api
+    ports:
+      - "8080:8080"
