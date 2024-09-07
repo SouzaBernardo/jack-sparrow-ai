@@ -1,6 +1,6 @@
-package br.com.souza.bernardo.api.ai.config
+package br.com.souza.bernardo.api.ai.core.config
 
-import br.com.souza.bernardo.api.ai.properties.PromptProperties
+import br.com.souza.bernardo.api.ai.core.properties.PromptProperties
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.chat.messages.AssistantMessage
 import org.springframework.ai.chat.prompt.AssistantPromptTemplate
