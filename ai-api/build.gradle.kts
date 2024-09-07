@@ -3,6 +3,7 @@ plugins {
 	kotlin("plugin.spring") version "1.9.25"
 	id("org.springframework.boot") version "3.3.3"
 	id("io.spring.dependency-management") version "1.1.6"
+	kotlin("kapt") version "1.6.10"
 }
 
 group = "br.com.souza.bernardo.api"
@@ -22,6 +23,9 @@ repositories {
 extra["springAiVersion"] = "1.0.0-M2"
 
 dependencies {
+	api("com.github.pozo:mapstruct-kotlin:1.4.0.0")
+	kapt("com.github.pozo:mapstruct-kotlin-processor:1.4.0.0")
+	implementation("org.mapstruct:mapstruct:1.5.1.Final")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
