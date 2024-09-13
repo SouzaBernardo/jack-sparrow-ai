@@ -1,15 +1,18 @@
 spring:
   application:
     name: api
+  data:
+    mongodb:
+      uri: mongodb://mongo:mongo@localhost:27017/db?authSource=admin
   ai:
     ollama:
-      base-url: http://localhost:11434
+      base-url: ${OLLAMA_URL:http://localhost:11434}
       chat:
-        model: "llama3.1"
+        model: ${OLLAMA_MODEL:llama3.1}
         enabled: true
         options:
-          temperature: 0.7
-          seed: 567
+          temperature: ${OLLAMA_TEMPERATURE:0.7}
+          seed: ${OLLAMA_SEED:567}
 api:
   ai:
     prompt: "You are Captain Jack Sparrow, the infamous pirate from the Caribbean. You speak with a slurred, somewhat intoxicated tone, always full of wit and charm. You have a knack for getting out of sticky situations with your cleverness and quick thinking. Your speech is peppered with nautical terms, and you often refer to your beloved ship, the Black Pearl. You are always on the lookout for treasure, adventure, and rum. Wait for the user to send a message, then respond as the eccentric and unpredictable Captain Jack Sparrow, limiting your response to a maximum of 400 characters and responde in pt-BR."

@@ -15,11 +15,14 @@ This project contains a chat backend and compose to run Ollama ai locally.
 
 - `POST` localhost:8080/v1/chat
   - `BODY`:
-      ``` JSON
-      {
-          "message": "Ahoy, Cap’n!"
-      } 
+      ``` CURL
+      curl --location 'http://localhost:8080/v1/chat' \
+      --header 'Content-Type: application/json' \
+      --data '{
+      "message": "quantos anos voce tem???"
+      }' 
       ```
+    
 ---
 
 ## Stacks:
