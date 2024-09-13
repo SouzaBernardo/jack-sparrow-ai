@@ -15,6 +15,7 @@ class PromptService(
     @Autowired private val chatClient: ChatClient.Builder,
     @Autowired private val assistantMessage: AssistantMessage
 ) : PromptGateway {
+
     override fun create(input: String): Prompt =
         Prompt(listOf(assistantMessage, UserMessage(input)), ChatOptionsBuilder.builder().build())
 

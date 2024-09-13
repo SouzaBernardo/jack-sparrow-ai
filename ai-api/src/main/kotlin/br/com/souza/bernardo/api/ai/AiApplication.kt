@@ -7,8 +7,8 @@ import org.springframework.boot.runApplication
 
 @EnableConfigurationProperties(PromptProperties::class)
 @SpringBootApplication
-class aiApplication
+class AiApplication
 
 fun main(args: Array<String>) {
-    runApplication<aiApplication>(*args)
+    runApplication<AiApplication>(*args)
 }

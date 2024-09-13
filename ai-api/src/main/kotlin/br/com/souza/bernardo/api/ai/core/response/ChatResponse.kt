@@ -1,3 +1,3 @@
 package br.com.souza.bernardo.api.ai.core.response
 
-data class ChatResponse(val message: String)
+data class ChatResponse(val message: String, val origin: String)

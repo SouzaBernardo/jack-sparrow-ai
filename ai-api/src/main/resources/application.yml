@@ -1,11 +1,14 @@
 spring:
   application:
     name: api
+  data:
+    mongodb:
+      uri: mongodb://mongo:mongo@localhost:27017/db?authSource=admin
   ai:
     ollama:
       base-url: ${OLLAMA_URL:http://localhost:11434}
       chat:
-        model: ${OLLAMA_MODEL:"llama3.1"}
+        model: ${OLLAMA_MODEL:llama3.1}
         enabled: true
         options:
           temperature: ${OLLAMA_TEMPERATURE:0.7}

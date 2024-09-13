@@ -8,7 +8,7 @@ import java.util.*
 @Document(collection = "chat")
 data class ChatDocument(
     @Id
-    val id: String,
+    val id: String? = null,
     val user: UUID,
     val history: List<ChatMessageDocument> = emptyList()
 )

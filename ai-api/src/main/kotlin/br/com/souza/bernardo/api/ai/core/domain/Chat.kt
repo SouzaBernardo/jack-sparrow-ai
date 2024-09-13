@@ -4,16 +4,16 @@ import org.springframework.ai.chat.messages.MessageType
 import java.util.*
 
 data class Chat(
-    val id: String,
+    val id: String? = null,
     val user: UUID,
     val history: List<ChatMessage> = emptyList()
 ) {
     fun userMessages(): List<ChatMessage> = history.filter {
-        MessageType.USER.value.equals(it.messageType)
+        MessageType.USER.value.equals(it.origin)
     }
 
     fun systemMessages(): List<ChatMessage> = history.filter {
-        MessageType.ASSISTANT.value.equals(it.messageType)
+        MessageType.ASSISTANT.value.equals(it.origin)
     }
 
 
