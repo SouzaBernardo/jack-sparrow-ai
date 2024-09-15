@@ -25,21 +25,17 @@ class CrudChatService(
 
     override suspend fun save(entity: Chat, chatMessage: List<ChatMessage>): Chat {
         return withContext(Dispatchers.IO) {
-            chatRepository.save(entity.convertToEntity(chatMessage)).convertToEntity()
-        }
+            chatRepository.save(entity.convertToEntity())
+        }.convertToEntity()
+
     }
-
-    fun Chat.convertToEntity(messages: List<ChatMessage>): ChatDocument {
-        return ChatDocument(id, user, messages.convertToHistoryDocument())
-    }
-
-    fun ChatDocument.convertToEntity(): Chat {
-        return Chat(id!!, user, history.convertHistory())
-    }
-
-    fun List<ChatMessage>.convertToHistoryDocument(): List<ChatMessageDocument> =
-        map { ChatMessageDocument(it.message, it.origin) }
-
-    fun List<ChatMessageDocument>.convertHistory(): List<ChatMessage> = map { ChatMessage(it.message, it.origin) }
-
 }
+
+fun Chat.convertToEntity(): ChatDocument = ChatDocument(id, user, history.convertToHistoryDocument())
+
+fun ChatDocument.convertToEntity(): Chat = Chat(id!!, user, history.convertHistory())
+
+fun List<ChatMessage>.convertToHistoryDocument(): List<ChatMessageDocument> =
+    map { ChatMessageDocument(it.message, it.origin) }
+
+fun List<ChatMessageDocument>.convertHistory(): List<ChatMessage> = map { ChatMessage(it.message, it.origin) }

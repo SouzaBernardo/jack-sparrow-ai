@@ -21,13 +21,14 @@ class QuestionService(
 ) : QuestionGateway {
 
     override suspend fun question(request: QuestionRequest): List<ChatResponse> {
-
-        val message = promptService.execute(request.message, request.oldMessages)
         val chat = crudChatGateway.findChatByUserId(request.userId)
+        val message = promptService.execute(request.message, chat.lastMessages())
         val chatHistory = chat.history
             .plus(ChatMessage(request.message, ChatOrigin.USER))
             .plus(ChatMessage(message, ChatOrigin.AI))
 
+
+        println(chatHistory)
         val newChat = withContext(Dispatchers.IO) {
             crudChatGateway.save(chat, chatHistory)
         }
