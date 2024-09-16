@@ -10,10 +10,10 @@ import java.util.*
 
 @RestController
 @RequestMapping("/v1/chat")
-class ChatController(@Autowired private val chatService: QuestionGateway) {
+class ChatController(@Autowired private val questionGateway: QuestionGateway) {
 
     @PostMapping
-    suspend fun question(@Valid @RequestBody request: QuestionRequest) = chatService.question(request)
+    suspend fun question(@Valid @RequestBody request: QuestionRequest) = questionGateway.question(request)
 
     @GetMapping("/user")
     fun getUser(): UserResponse = UserResponse(UUID.randomUUID())

@@ -1,4 +1,4 @@
-package br.com.souza.bernardo.api.ai.application.service
+package br.com.souza.bernardo.api.ai.application.gateway
 
 import br.com.souza.bernardo.api.ai.core.domain.ChatMessage
 import br.com.souza.bernardo.api.ai.core.domain.ChatOrigin
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class QuestionService(
+class QuestionGatewayImpl(
     @Autowired
     private val promptService: PromptGateway,
     @Autowired
@@ -27,8 +27,6 @@ class QuestionService(
             .plus(ChatMessage(request.message, ChatOrigin.USER))
             .plus(ChatMessage(message, ChatOrigin.AI))
 
-
-        println(chatHistory)
         val newChat = withContext(Dispatchers.IO) {
             crudChatGateway.save(chat, chatHistory)
         }

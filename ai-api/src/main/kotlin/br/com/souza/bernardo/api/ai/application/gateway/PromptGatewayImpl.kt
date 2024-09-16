@@ -1,4 +1,4 @@
-package br.com.souza.bernardo.api.ai.application.service
+package br.com.souza.bernardo.api.ai.application.gateway
 
 import br.com.souza.bernardo.api.ai.application.converter.toAiMessages
 import br.com.souza.bernardo.api.ai.core.domain.ChatMessage
@@ -15,27 +15,23 @@ import org.springframework.util.CollectionUtils
 
 
 @Service
-class PromptService(
-    @Autowired private val chatClient: ChatClient.Builder,
+class PromptGatewayImpl(
+    @Autowired private val chatClient: ChatClient,
     @Autowired private val assistantMessage: AssistantMessage
 ) : PromptGateway {
 
     override fun create(input: String, oldMessages: List<ChatMessage>): Prompt {
-        val messages: List<Message> = messages(input, oldMessages)
-        return Prompt(messages, ChatOptionsBuilder.builder().build())
+        return Prompt(messages(input, oldMessages), ChatOptionsBuilder.builder().build())
     }
 
     private fun messages(input: String, oldMessages: List<ChatMessage>): List<Message> {
-        if (CollectionUtils.isEmpty(oldMessages)) {
-            return listOf(assistantMessage, UserMessage(input))
-        }
-        val start: List<Message> = listOf(assistantMessage)
-        val context: List<Message> = start.plus(oldMessages.toAiMessages())
-        return context.plus(UserMessage(input))
+        if (CollectionUtils.isEmpty(oldMessages)) return listOf(assistantMessage, UserMessage(input))
+        return listOf(assistantMessage)
+            .plus(oldMessages.toAiMessages())
+            .plus(UserMessage(input))
     }
 
     override fun execute(input: String, oldMessages: List<ChatMessage>): String = chatClient
-        .build()
         .prompt(create(input, oldMessages)).call().chatResponse()
         .result.output.content
 }

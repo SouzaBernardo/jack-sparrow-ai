@@ -1,4 +1,4 @@
-package br.com.souza.bernardo.api.ai.application.service
+package br.com.souza.bernardo.api.ai.dataprovider.gateway
 
 import br.com.souza.bernardo.api.ai.application.converter.ChatConverter
 import br.com.souza.bernardo.api.ai.core.domain.Chat
@@ -12,19 +12,19 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class CrudChatService(
+class CrudChatGatewayImpl(
     @Autowired private val chatRepository: ChatRepository,
     @Autowired private val chatConverter: ChatConverter
 ) : CrudChatGateway {
 
     override fun findChatByUserId(userId: UUID): Chat {
         val chat = chatRepository.findByUser(userId) ?: return Chat(null, userId, emptyList())
-        return chatConverter.convert(chat)
+        return chatConverter.toResponse(chat)
     }
 
-    override suspend fun save(entity: Chat, chatMessage: List<ChatMessage>): Chat {
-        return chatConverter.convert(withContext(Dispatchers.IO) {
-            chatRepository.save(chatConverter.convert(entity))
+    override suspend fun save(chat: Chat, chatMessage: List<ChatMessage>): Chat {
+        return chatConverter.toResponse(withContext(Dispatchers.IO) {
+            chatRepository.save(chatConverter.toEntity(chat))
         })
     }
 }
