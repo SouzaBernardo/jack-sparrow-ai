@@ -1,4 +1,4 @@
-package br.com.souza.bernardo.api.ai.entrypoint.chat
+package br.com.souza.bernardo.api.ai.entrypoint
 
 import br.com.souza.bernardo.api.ai.core.gateway.QuestionGateway
 import br.com.souza.bernardo.api.ai.core.request.QuestionRequest

@@ -1,10 +1,9 @@
 package br.com.souza.bernardo.api.ai.application.service
 
+import br.com.souza.bernardo.api.ai.application.converter.ChatConverter
 import br.com.souza.bernardo.api.ai.core.domain.Chat
 import br.com.souza.bernardo.api.ai.core.domain.ChatMessage
 import br.com.souza.bernardo.api.ai.core.gateway.CrudChatGateway
-import br.com.souza.bernardo.api.ai.dataprovider.domain.ChatDocument
-import br.com.souza.bernardo.api.ai.dataprovider.domain.ChatMessageDocument
 import br.com.souza.bernardo.api.ai.dataprovider.repository.ChatRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -14,28 +13,18 @@ import java.util.*
 
 @Service
 class CrudChatService(
-    @Autowired
-    private val chatRepository: ChatRepository
+    @Autowired private val chatRepository: ChatRepository,
+    @Autowired private val chatConverter: ChatConverter
 ) : CrudChatGateway {
 
     override fun findChatByUserId(userId: UUID): Chat {
         val chat = chatRepository.findByUser(userId) ?: return Chat(null, userId, emptyList())
-        return Chat(chat.id, chat.user, chat.history.convertHistory())
+        return chatConverter.convert(chat)
     }
 
     override suspend fun save(entity: Chat, chatMessage: List<ChatMessage>): Chat {
-        return withContext(Dispatchers.IO) {
-            chatRepository.save(entity.convertToEntity())
-        }.convertToEntity()
-
+        return chatConverter.convert(withContext(Dispatchers.IO) {
+            chatRepository.save(chatConverter.convert(entity))
+        })
     }
 }
-
-fun Chat.convertToEntity(): ChatDocument = ChatDocument(id, user, history.convertToHistoryDocument())
-
-fun ChatDocument.convertToEntity(): Chat = Chat(id!!, user, history.convertHistory())
-
-fun List<ChatMessage>.convertToHistoryDocument(): List<ChatMessageDocument> =
-    map { ChatMessageDocument(it.message, it.origin) }
-
-fun List<ChatMessageDocument>.convertHistory(): List<ChatMessage> = map { ChatMessage(it.message, it.origin) }

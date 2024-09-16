@@ -1,7 +1,7 @@
 package br.com.souza.bernardo.api.ai.application.service
 
+import br.com.souza.bernardo.api.ai.application.converter.toAiMessages
 import br.com.souza.bernardo.api.ai.core.domain.ChatMessage
-import br.com.souza.bernardo.api.ai.core.domain.ChatOrigin
 import br.com.souza.bernardo.api.ai.core.gateway.PromptGateway
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.ai.chat.messages.AssistantMessage
@@ -30,7 +30,7 @@ class PromptService(
             return listOf(assistantMessage, UserMessage(input))
         }
         val start: List<Message> = listOf(assistantMessage)
-        val context: List<Message> = start.plus(oldMessages.toMessages())
+        val context: List<Message> = start.plus(oldMessages.toAiMessages())
         return context.plus(UserMessage(input))
     }
 
@@ -40,7 +40,4 @@ class PromptService(
         .result.output.content
 }
 
-fun List<ChatMessage>.toMessages(): List<Message> = map {
-    return@map if (ChatOrigin.AI == it.origin) AssistantMessage(it.message)
-    else UserMessage(it.message)
-}
+
