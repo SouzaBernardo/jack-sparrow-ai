@@ -7,7 +7,6 @@ import br.com.souza.bernardo.api.ai.core.gateway.PromptGateway
 import br.com.souza.bernardo.api.ai.core.gateway.QuestionGateway
 import br.com.souza.bernardo.api.ai.core.request.QuestionRequest
 import br.com.souza.bernardo.api.ai.core.response.ChatResponse
-import kotlinx.coroutines.runBlocking
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -19,19 +18,16 @@ class QuestionGatewayImpl(
     private val crudChatGateway: CrudChatGateway
 ) : QuestionGateway {
 
-    override suspend fun question(request: QuestionRequest): List<ChatResponse> {
-        return runBlocking {
-            val chat = crudChatGateway.findChatByUserId(request.userId)
-            val message = promptService.execute(request.message, chat.lastMessages())
-            val userMessage = ChatMessage(request.message, ChatOrigin.USER)
-            val chatResponse = ChatMessage(message, ChatOrigin.AI)
-            val chatHistory = chat.history
-                .plus(userMessage)
-                .plus(chatResponse)
-            crudChatGateway.save(chat, chatHistory)
-
-            return@runBlocking toResponse(chatHistory)
-        }
+    override fun question(request: QuestionRequest): List<ChatResponse> {
+        val chat = crudChatGateway.findChatByUserId(request.userId)
+        val message = promptService.execute(request.message, chat.lastMessages())
+        val userMessage = ChatMessage(request.message, ChatOrigin.USER)
+        val chatResponse = ChatMessage(message, ChatOrigin.AI)
+        val chatHistory = chat.history
+            .plus(userMessage)
+            .plus(chatResponse)
+        crudChatGateway.save(chat, chatHistory)
+        return toResponse(chatHistory)
     }
 
     fun toResponse(history: List<ChatMessage>): List<ChatResponse> {
