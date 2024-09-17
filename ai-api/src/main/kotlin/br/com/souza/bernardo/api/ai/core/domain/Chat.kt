@@ -1,10 +1,13 @@
 package br.com.souza.bernardo.api.ai.core.domain
 
-import org.springframework.ai.chat.messages.MessageType
+import org.springframework.ai.chat.messages.AssistantMessage
+import org.springframework.ai.chat.messages.Message
+import org.springframework.ai.chat.messages.UserMessage
 import java.util.*
 
 private const val NUMBER_OF_MESSAGES = 3
 
+//@KotlinBuilder
 data class Chat(
     val id: String? = null,
     val user: UUID,
@@ -16,6 +19,6 @@ data class Chat(
     }
 }
 
-enum class ChatOrigin(val type: MessageType) {
-    USER(MessageType.USER), AI(MessageType.ASSISTANT)
+enum class ChatOrigin(val message: (content: String) -> Message) {
+    USER({ UserMessage(it) }), AI({ AssistantMessage(it) });
 }

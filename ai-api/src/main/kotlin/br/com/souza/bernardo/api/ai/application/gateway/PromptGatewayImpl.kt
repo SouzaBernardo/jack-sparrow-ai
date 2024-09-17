@@ -1,6 +1,5 @@
 package br.com.souza.bernardo.api.ai.application.gateway
 
-import br.com.souza.bernardo.api.ai.application.converter.toAiMessages
 import br.com.souza.bernardo.api.ai.core.domain.ChatMessage
 import br.com.souza.bernardo.api.ai.core.gateway.PromptGateway
 import org.springframework.ai.chat.client.ChatClient
@@ -27,13 +26,18 @@ class PromptGatewayImpl(
     private fun messages(input: String, oldMessages: List<ChatMessage>): List<Message> {
         if (CollectionUtils.isEmpty(oldMessages)) return listOf(assistantMessage, UserMessage(input))
         return listOf(assistantMessage)
-            .plus(oldMessages.toAiMessages())
+            .plus(toAiMessages(oldMessages))
             .plus(UserMessage(input))
     }
 
-    override fun execute(input: String, oldMessages: List<ChatMessage>): String = chatClient
+    override fun execute(input: String, oldMessages: List<ChatMessage>): String =
+
+//        "oi"
+        chatClient
         .prompt(create(input, oldMessages)).call().chatResponse()
         .result.output.content
 }
-
+fun toAiMessages(messages: List<ChatMessage>): List<Message> {
+    return messages.map { it.getAiMessage() }
+}
 

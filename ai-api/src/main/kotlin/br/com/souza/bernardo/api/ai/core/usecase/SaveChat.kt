@@ -4,5 +4,5 @@ import br.com.souza.bernardo.api.ai.core.domain.Chat
 import br.com.souza.bernardo.api.ai.core.domain.ChatMessage
 
 interface SaveChat {
-    suspend fun save(chat: Chat, chatMessage: List<ChatMessage>): Chat
+    suspend fun save(chat: Chat, chatMessage: List<ChatMessage>)
 }
