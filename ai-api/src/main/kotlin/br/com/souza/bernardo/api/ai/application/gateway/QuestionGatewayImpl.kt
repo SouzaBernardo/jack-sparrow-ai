@@ -12,10 +12,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class QuestionGatewayImpl(
-    @Autowired
-    private val promptService: PromptGateway,
-    @Autowired
-    private val crudChatGateway: CrudChatGateway
+    @Autowired private val promptService: PromptGateway,
+    @Autowired private val crudChatGateway: CrudChatGateway
 ) : QuestionGateway {
 
     override fun question(request: QuestionRequest): List<ChatResponse> {

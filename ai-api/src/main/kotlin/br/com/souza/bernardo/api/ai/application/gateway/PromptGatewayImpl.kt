@@ -30,10 +30,7 @@ class PromptGatewayImpl(
             .plus(UserMessage(input))
     }
 
-    override fun execute(input: String, oldMessages: List<ChatMessage>): String =
-
-//        "oi"
-        chatClient
+    override fun execute(input: String, oldMessages: List<ChatMessage>): String = chatClient
         .prompt(create(input, oldMessages)).call().chatResponse()
         .result.output.content
 }

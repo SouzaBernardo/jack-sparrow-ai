@@ -7,7 +7,6 @@ import java.util.*
 
 private const val NUMBER_OF_MESSAGES = 3
 
-//@KotlinBuilder
 data class Chat(
     val id: String? = null,
     val user: UUID,
