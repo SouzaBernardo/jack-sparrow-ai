@@ -23,17 +23,18 @@ class PromptGatewayImpl(
         return Prompt(messages(input, oldMessages), ChatOptionsBuilder.builder().build())
     }
 
+    override fun execute(input: String, oldMessages: List<ChatMessage>): String = chatClient
+        .prompt(create(input, oldMessages)).call().chatResponse()
+        .result.output.content
+
     private fun messages(input: String, oldMessages: List<ChatMessage>): List<Message> {
         if (CollectionUtils.isEmpty(oldMessages)) return listOf(assistantMessage, UserMessage(input))
         return listOf(assistantMessage)
             .plus(toAiMessages(oldMessages))
             .plus(UserMessage(input))
     }
-
-    override fun execute(input: String, oldMessages: List<ChatMessage>): String = chatClient
-        .prompt(create(input, oldMessages)).call().chatResponse()
-        .result.output.content
 }
+
 fun toAiMessages(messages: List<ChatMessage>): List<Message> {
     return messages.map { it.getAiMessage() }
 }
