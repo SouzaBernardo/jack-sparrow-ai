@@ -30,12 +30,11 @@ class PromptGatewayImpl(
     private fun messages(input: String, oldMessages: List<ChatMessage>): List<Message> {
         if (CollectionUtils.isEmpty(oldMessages)) return listOf(assistantMessage, UserMessage(input))
         return listOf(assistantMessage)
-            .plus(toAiMessages(oldMessages))
+            .plus(getMessages(oldMessages))
             .plus(UserMessage(input))
     }
-}
 
-fun toAiMessages(messages: List<ChatMessage>): List<Message> {
-    return messages.map { it.getAiMessage() }
+    private fun getMessages(oldMessages: List<ChatMessage>) =
+        oldMessages.map { it.getAiMessage() }
 }
 

@@ -21,3 +21,12 @@ data class Chat(
 enum class ChatOrigin(val message: (content: String) -> Message) {
     USER({ UserMessage(it) }), AI({ AssistantMessage(it) });
 }
+
+data class ChatMessage(
+    val message: String,
+    val origin: ChatOrigin
+) {
+    fun getAiMessage(): Message {
+        return origin.message(message)
+    }
+}
