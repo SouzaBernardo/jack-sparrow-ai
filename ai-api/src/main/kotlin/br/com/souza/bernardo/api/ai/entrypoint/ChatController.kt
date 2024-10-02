@@ -1,8 +1,7 @@
-package br.com.souza.bernardo.api.ai.entrypoint.chat
+package br.com.souza.bernardo.api.ai.entrypoint
 
 import br.com.souza.bernardo.api.ai.core.gateway.QuestionGateway
 import br.com.souza.bernardo.api.ai.core.request.QuestionRequest
-import br.com.souza.bernardo.api.ai.core.response.ChatResponse
 import br.com.souza.bernardo.api.ai.core.response.UserResponse
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,11 +10,10 @@ import java.util.*
 
 @RestController
 @RequestMapping("/v1/chat")
-class ChatController(@Autowired private val chatService: QuestionGateway) {
+class ChatController(@Autowired private val questionGateway: QuestionGateway) {
 
     @PostMapping
-    suspend fun question(@Valid @RequestBody request: QuestionRequest): List<ChatResponse> =
-        chatService.question(request.message, request.userId)
+    suspend fun question(@Valid @RequestBody request: QuestionRequest) = questionGateway.question(request)
 
     @GetMapping("/user")
     fun getUser(): UserResponse = UserResponse(UUID.randomUUID())

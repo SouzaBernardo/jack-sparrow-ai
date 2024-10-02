@@ -1,4 +1,4 @@
-package br.com.souza.bernardo.api.ai.core.properties
+package br.com.souza.bernardo.api.ai.application.properties
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

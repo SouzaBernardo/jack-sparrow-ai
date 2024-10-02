@@ -1,20 +1,32 @@
 package br.com.souza.bernardo.api.ai.core.domain
 
-import org.springframework.ai.chat.messages.MessageType
+import org.springframework.ai.chat.messages.AssistantMessage
+import org.springframework.ai.chat.messages.Message
+import org.springframework.ai.chat.messages.UserMessage
 import java.util.*
+
+private const val NUMBER_OF_MESSAGES = 3
 
 data class Chat(
     val id: String? = null,
     val user: UUID,
     val history: List<ChatMessage> = emptyList()
 ) {
-    fun userMessages(): List<ChatMessage> = history.filter {
-        MessageType.USER.value.equals(it.origin)
+    fun lastMessages(): List<ChatMessage> {
+        return if (history.size < NUMBER_OF_MESSAGES) history
+        else history.subList(history.size - NUMBER_OF_MESSAGES, history.size)
     }
+}
 
-    fun systemMessages(): List<ChatMessage> = history.filter {
-        MessageType.ASSISTANT.value.equals(it.origin)
+enum class ChatOrigin(val message: (content: String) -> Message) {
+    USER({ UserMessage(it) }), AI({ AssistantMessage(it) });
+}
+
+data class ChatMessage(
+    val message: String,
+    val origin: ChatOrigin
+) {
+    fun getAiMessage(): Message {
+        return origin.message(message)
     }
-
-
 }

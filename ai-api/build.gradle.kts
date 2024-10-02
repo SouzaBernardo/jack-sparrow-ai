@@ -26,6 +26,8 @@ dependencies {
 	api("com.github.pozo:mapstruct-kotlin:1.4.0.0")
 	kapt("com.github.pozo:mapstruct-kotlin-processor:1.4.0.0")
 	implementation("org.mapstruct:mapstruct:1.5.1.Final")
+	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.1.Final")
+
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
