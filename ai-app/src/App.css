@@ -1,0 +1,116 @@
+* {
+    box-sizing: border-box;
+    margin: 0px; 
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+:root{
+    --primary-color: rgb(113, 113, 202);
+    --backgroud-ai-message: rgb(158, 158, 228);
+    --backgroud-user-message: rgb(158, 158, 228);
+}
+
+.home {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat {
+    border-radius: 15px 15px 0px 0px;
+    position: fixed;
+    bottom: 0px;
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: var(--primary-color);
+    > header {
+        padding-top: 25px;
+    }
+}
+
+.down-chat {
+    margin: 20px;
+}
+
+.container {
+    padding: 0px 20px;
+}
+
+.scroll {
+    margin: 10px 0px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.messages-size {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    bottom: 0;
+}
+
+.chat-header {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.messages{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    > .message {
+        width: 100%;
+        padding: 10px;
+        margin: 2px 0px;
+        border-radius: 10px;
+        max-width: 65%;
+    }
+    > .AI {
+        background-color: var(--backgroud-ai-message);
+        text-align: start;
+        align-self: flex-start;
+    }
+    > .USER {
+        background-color: var(--backgroud-user-message);
+        align-self: flex-end;
+    }
+}
+.user-interation {
+    width: 100%;
+    margin: 10px 0px;
+    border-radius: 10px;
+    > div {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        > .input {
+            font-size: 18px;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            outline: none;
+            border-radius: 10px 0px 0px 10px;
+        }
+        > .button {
+            border: none;
+            background-color: white;
+            font-size: 18px;
+            padding: 15px;
+            border-radius: 0px 10px 10px 0px;
+        }
+    }
+}
+
+.button:hover {
+    background-color: rgb(220, 220, 220);
+}
